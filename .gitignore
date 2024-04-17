@@ -1,0 +1,9 @@
+.git/
+
+.github/
+
+.gitmessage
+
+.pre-commit-config.yaml
+
+*.sh
