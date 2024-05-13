@@ -7,3 +7,5 @@
 .pre-commit-config.yaml
 
 *.sh
+
+playground.ipynb
