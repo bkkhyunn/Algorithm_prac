@@ -1,53 +1,60 @@
-def solution(n, info):
-    global max_gap, answer
-    
-    answer = [-1]
-    score = [0]*11
-    max_gap=0
-    
-    def is_winner_with_gap(score):
-        a=0 # 어피치 점수
-        b=0 # 라이언 점수
-        
-        for i in range(len(info)):
-            if info[i] > 0 or score[i] > 0:
-                if info[i]>=score[i]:
-                    a += (10-i)
-                else:
-                    b += (10-i)
-        return (b > a, abs(a-b))
+# 어피치보다 라이언이 1발 더 많이 맞추거나 아예 안 맞추거나
 
-    def dfs(L, cnt):
-        global max_gap, answer
-        if L == 11 or cnt == 0:    
-            is_winner, gap = is_winner_with_gap(score)
-            if is_winner:
-                if cnt >= 0: # 화살이 남은 경우
-                    score[10] = cnt # 0점에 쏴도 이김
+def solution(n, info):
+    answer = [-1]
+    a_info = info
+    l_info = [0] * len(info)
+    gap = 0
+    
+    def calc_score(a_info, l_info):
+        # 어피치, 라이언 총 점수
+        a_score = 0
+        l_score = 0
+        
+        for i in range(len(a_info)):
+            if a_info[i] > 0 or l_info[i] > 0:
+                if a_info[i] >= l_info[i]:
+                    a_score += (10-i)
+                else:
+                    l_score += (10-i)
+        return (l_score > a_score, l_score - a_score)
+    
+    def dfs(idx, cnt):
+        nonlocal answer, a_info, l_info, gap
+        
+        if cnt == 0 or idx == 11:
+            result = calc_score(a_info, l_info)
+            # 라이언이 어피치보다 점수가 높을 때
+            if result[0]:
                 
-                if gap > max_gap: # 갭이 더 큰 경우로 업데이트
-                    max_gap = gap
-                    answer = score.copy()
+                # 화살이 남은 경우, 0점에 다 쏴도 이긴다.
+                if cnt >= 0:
+                    l_info[10] = cnt
                     
-                elif gap == max_gap: # 가장 낮은 점수를 많이 맞힌 경우로 업데이트
-                    for i in range(len(score)):
-                        if answer[i] > 0:
-                            max_i_1 = i
-                        if score[i] > 0:
-                            max_i_2 = i
-                    if max_i_2 > max_i_1:
-                        answer = score.copy()
-                    
+                if result[1] > gap:
+                    gap = result[1]
+                    answer = l_info.copy()
+                
+                elif result[1] == gap:
+                    for i in range(len(l_info)):
+                        if l_info[10-i] > answer[10-i]:
+                            answer = l_info.copy()
+                            break
+                        elif l_info[10-i] < answer[10-i]:
+                            answer = answer
+                            break
             return
         
-        # k점을 어피치보다 많이 맞추거나 아예 안맞추거나
-        if cnt>info[L]:
-            score[L]=info[L]+1
-            dfs(L+1, cnt-(info[L]+1))
-            score[L]=0
+        # 어피치보다 1개 더 많이 맞추거나, 아예 안 맞추거나
+        if cnt > a_info[idx]:
+            # 1개 더 많이 맞춘 걸로 진행
+            l_info[idx] = a_info[idx]+1
+            dfs(idx+1, cnt-(a_info[idx]+1))
             
-        dfs(L+1, cnt)
-    
-    dfs(0,n)
+        # 아예 안 맞추는 걸로 진행
+        l_info[idx] = 0
+        dfs(idx+1, cnt)
+        
+    dfs(0, n)
     
     return answer
