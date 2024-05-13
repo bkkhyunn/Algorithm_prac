@@ -1,45 +1,33 @@
 from collections import deque
 
+# bfs
 def solution(maps):
-    answer = 0
-
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-
+    
+    # 동, 서, 남, 북
+    dx = [0, 0, 1, -1]
+    dy = [1, -1, 0, 0]
+    
     def bfs(x, y):
-        queue = deque()
-        queue.append((x, y))
-
+        queue = deque([(x,y)])
+        
         while queue:
-            # 해당 iter 에서 출발 좌표
             x, y = queue.popleft()
-            
-            # 가야할 방향 결정
+            # 동, 서, 남, 북 이동
             for i in range(4):
-                
-                # 새로 가야할 좌표 설정
                 nx = x + dx[i]
                 ny = y + dy[i]
                 
-                # 맵을 넘어가면 pass
-                if nx < 0 or nx >= len(maps) or ny < 0 or ny >= len(maps[0]):
+                # map 밖으로 넘어가는 경우 skip
+                if nx < 0 or ny < 0 or nx >= len(maps) or ny >= len(maps[0]):
                     continue
-                
-                # 벽이면 pass
+                # 벽인 경우 무시
                 if maps[nx][ny] == 0:
                     continue
-
-                # 벽이 아니니까 go
+                # 이동할 수 있다면 큐에 이동 좌표를 넣고, 해당 좌표에 거리 계산
                 if maps[nx][ny] == 1:
-                    
-                    # 실제 움직인 거리를 counting 하면서 움직임
-                    maps[nx][ny] = maps[x][y] + 1
                     queue.append((nx, ny))
+                    maps[nx][ny] = maps[x][y] + 1
                     
-                # if maps[len(maps)-1][len(maps[0])-1] > 1:
-                #     return maps[len(maps)-1][len(maps[0])-1]
-                
-        return maps[len(maps)-1][len(maps[0])-1]
-
-    answer = bfs(0, 0)
-    return -1 if answer == 1 else answer
+    bfs(0,0)
+    
+    return -1 if maps[-1][-1] == 1 else maps[-1][-1] 
