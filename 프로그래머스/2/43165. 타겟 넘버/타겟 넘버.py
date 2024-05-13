@@ -1,16 +1,18 @@
+# dfs
 def solution(numbers, target):
     answer = 0
     
-    def calc(idx, sum):
+    def calc_sum(idx, summation):
         nonlocal answer
+        
         if idx == len(numbers):
-            if sum == target:
+            if summation == target:
                 answer += 1
             return
-
-        calc(idx+1, sum + numbers[idx])
-        calc(idx+1, sum - numbers[idx])
-
-    calc(0,0)
-
+        
+        calc_sum(idx+1, summation + numbers[idx])
+        calc_sum(idx+1, summation - numbers[idx])
+    
+    calc_sum(0, 0)
+        
     return answer
