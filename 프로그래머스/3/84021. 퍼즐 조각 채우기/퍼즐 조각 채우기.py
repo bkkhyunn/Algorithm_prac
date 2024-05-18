@@ -84,14 +84,13 @@ def solution(game_board, table):
     cnt = 0
     for i in range(4):
         # table 을 회전시켜가며 가지고 있는 figure 를 찾는다.
-        #print(table)
         figures = make_figure(table, i)
+        
         # game_board 와 table 의 비교를 용이하게 할 수 있도록 normalize
         n_figures = list(map(normalize, figures))
+        
+        # game_board 내에서 빈 공간을 찾고, normalize 한다.
         maps = copy.deepcopy(game_board)
-        #print(maps)
-        #print(figures)
-        #print(n_figures)
         puzzles = []
         for x in range(l):
             for y in range(l):
@@ -101,19 +100,21 @@ def solution(game_board, table):
                     puzzle = dfs((x,y), maps)
                     if len(puzzle) >= 1:
                         puzzles.append(puzzle)
-        #print(puzzles)
         n_puzzles = list(map(normalize, puzzles))
-        # print(n_puzzles)
-        # print(n_figures)
+        
+        # normalize 된 figure 와 puzzle 을 비교하면서 사용된 figure 와 puzzle 을 후처리
         for ti, f in enumerate(n_figures):
+            # 특정 회전(0, 90, 180, 270)에서 찾은 figure 가 빈공간에 딱 들어맞으면
             if f in n_puzzles:
+                # figure 칸 수 만큼 세고,
                 cnt += len(f)
                 gi = n_puzzles.index(f)
-                #print(figures[j])
+                # 원본 game_board 에 채움 표시를 해준다.
                 for px, py in puzzles[gi]:
                     game_board[px][py] = 1
                 puzzles.pop(gi)
                 n_puzzles.pop(gi)
+                # 마찬가지로 원본 table 에 사용 표시를 해준다.
                 table = rotate(table, i)
                 for tx, ty in figures[ti]:
                     table[tx][ty] = 0
