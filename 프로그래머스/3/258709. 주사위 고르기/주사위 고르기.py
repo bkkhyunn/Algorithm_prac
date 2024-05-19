@@ -8,6 +8,7 @@ def solution(dice):
     n = len(dice)
     a_dice = list(combinations(range(n), n // 2))
     b_dice = list(combinations(range(n), n // 2))[::-1]
+    print(a_dice)
     
     # 승 수 구하기. bisect 를 통해 시간 감소시키기
     max_win, a_win = 0, 0
