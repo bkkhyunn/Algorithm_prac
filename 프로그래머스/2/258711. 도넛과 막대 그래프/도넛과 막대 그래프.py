@@ -7,6 +7,8 @@ def solution(edges):
     for start, end in edges:
         graph[start][0] += 1
         graph[end][1] += 1
+        
+    #print(graph)
     
     for node, info in graph.items():
         start, end = info
