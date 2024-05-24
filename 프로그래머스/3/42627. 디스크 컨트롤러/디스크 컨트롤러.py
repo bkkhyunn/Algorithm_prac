@@ -27,6 +27,6 @@ def solution(jobs):
             
         if jobs and (not wait_list):
             n_req, n_duration = heapq.heappop(jobs)
-            wait_list = [[n_duration, n_req]]
+            wait_list += [[n_duration, n_req]]
     
     return int(answer / n)
