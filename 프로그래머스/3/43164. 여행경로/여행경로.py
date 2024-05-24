@@ -46,7 +46,7 @@ def solution(tickets):
         graph[airport].sort()
         
     def dfs(graph, path, tickets):
-        
+        #print(path)
         if len(path) == len(tickets)+1:
             return path
         
