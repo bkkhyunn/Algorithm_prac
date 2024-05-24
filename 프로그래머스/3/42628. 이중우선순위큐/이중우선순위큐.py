@@ -12,7 +12,9 @@ def solution(operations):
         else:
             if heap:
                 if int(data) == 1:
-                    heap = sorted(heap)[:-1]
+                    #heap = sorted(heap)[:-1]
+                    val = heapq.nlargest(1, heap)[0]
+                    heap.remove(val)
                 elif int(data) == -1:
                     heapq.heappop(heap)
             else:
