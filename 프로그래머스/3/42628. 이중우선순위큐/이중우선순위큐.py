@@ -13,6 +13,8 @@ def solution(operations):
             if heap:
                 if int(data) == 1:
                     #heap = sorted(heap)[:-1]
+                    
+                    # heapq nlargest 활용
                     val = heapq.nlargest(1, heap)[0]
                     heap.remove(val)
                 elif int(data) == -1:
