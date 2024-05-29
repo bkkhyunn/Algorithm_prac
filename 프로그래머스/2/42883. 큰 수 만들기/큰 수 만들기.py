@@ -2,21 +2,38 @@
 # 앞에서부터 하나씩 확인하면서 다음 자리 수가 더 크면 그 수를 삭제하면 된다.
 # 주어진 수가 계속해서 앞의 수가 뒤의 수보다 크게 넘어가서 k 가 남는 경우, 뒤에서 k 개 만큼 자르면 된다.
 
-def solution(number, k):
+# def solution(number, k):
     
-    idx = 0
+#     idx = 0
     
-    while k > 0 and idx < len(number)-1:
-        if number[idx] < number[idx+1]:
-            number = number[:idx] + number[idx+1:]
-            k -= 1
-            # idx 를 바로 0으로 초기화하기 보다 앞의 수는 이미 확인 했으니 1개 없앤 것을 반영
-            if idx != 0:
-                idx -= 1
-        else:
-            idx += 1
+#     while k > 0 and idx < len(number)-1:
+#         if number[idx] < number[idx+1]:
+#             number = number[:idx] + number[idx+1:]
+#             k -= 1
+#             # idx 를 바로 0으로 초기화하기 보다 앞의 수는 이미 확인 했으니 1개 없앤 것을 반영
+#             if idx != 0:
+#                 idx -= 1
+#         else:
+#             idx += 1
     
-    if k > 0:
-        number = number[:-k]
+#     if k > 0:
+#         number = number[:-k]
             
-    return number
+#     return number
+
+# stack 활용 - 월등히 빠르다
+def solution(number, k):
+    stack = []
+    
+    for num in number:
+        
+        while stack and stack[-1] < num and k > 0:
+            k -= 1
+            stack.pop()
+            
+        stack.append(num)
+        
+    if k != 0:
+        return ''.join(stack[:-k])
+        
+    return ''.join(stack)
