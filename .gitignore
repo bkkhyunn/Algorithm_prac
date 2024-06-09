@@ -9,3 +9,5 @@
 *.sh
 
 playground.ipynb
+
+.gitignore
