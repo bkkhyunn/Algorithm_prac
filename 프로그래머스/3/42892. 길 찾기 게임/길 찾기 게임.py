@@ -1,101 +1,101 @@
-# ## 1
-# from collections import defaultdict
-# from sys import setrecursionlimit
-# setrecursionlimit(10000)
+## 1
+from collections import defaultdict
+from sys import setrecursionlimit
+setrecursionlimit(10000)
 
-# # 전체 트리의 x 값 범위
-# MIN, MAX = -1, 100001
-# # 전체 트리 깊이
-# TREE_DEPTH = 0
+# 전체 트리의 x 값 범위
+MIN, MAX = -1, 100001
+# 전체 트리 깊이
+TREE_DEPTH = 0
 
-# def solution(nodeinfo):
-#     global TREE_DEPTH
+def solution(nodeinfo):
+    global TREE_DEPTH
 
-#     # 전위, 중위, 후위 순위를 위한 트리를 각각 생성
-#     pre_tree = defaultdict(list)
-#     mid_tree = defaultdict(list)
-#     post_tree = defaultdict(list)
-#     # y값 level
-#     level = set()
+    # 전위, 중위, 후위 순위를 위한 트리를 각각 생성
+    pre_tree = defaultdict(list)
+    mid_tree = defaultdict(list)
+    post_tree = defaultdict(list)
+    # y값 level
+    level = set()
 
-#     for i in range(len(nodeinfo)):
-#         x, y = nodeinfo[i]
-#         # 각 트리는 {y값 : [(해당 y값을 가진 노드의 x 좌표와 노드번호),...]}
-#         pre_tree[y].append((x, i+1))
-#         mid_tree[y].append((x, i+1))
-#         post_tree[y].append((x, i+1))
-#         level.add(y)
+    for i in range(len(nodeinfo)):
+        x, y = nodeinfo[i]
+        # 각 트리는 {y값 : [(해당 y값을 가진 노드의 x 좌표와 노드번호),...]}
+        pre_tree[y].append((x, i+1))
+        mid_tree[y].append((x, i+1))
+        post_tree[y].append((x, i+1))
+        level.add(y)
 
-#     for i in level:
-#         # x 값이 작은 것(왼쪽에 위치한 노드) 부터 판단하기 위하여 역순 정렬
-#         pre_tree[i].sort(reverse=True)
-#         mid_tree[i].sort(reverse=True)
-#         post_tree[i].sort(reverse=True)
+    for i in level:
+        # x 값이 작은 것(왼쪽에 위치한 노드) 부터 판단하기 위하여 역순 정렬
+        pre_tree[i].sort(reverse=True)
+        mid_tree[i].sort(reverse=True)
+        post_tree[i].sort(reverse=True)
 
-#     level = sorted(list(level), reverse=True)
-#     TREE_DEPTH = len(level)
+    level = sorted(list(level), reverse=True)
+    TREE_DEPTH = len(level)
     
-#     # 각 순회의 인자는 특정 노드가 가질 수 있는 x 값의 최소, 최대, 특정 노드의 depth, 결과를 담을 리스트, 각 순회용 트리, level
-#     preorder = []
-#     pre_order(MIN, MAX, 0, preorder, pre_tree, level)
-#     midorder = []
-#     mid_order(MIN, MAX, 0, midorder, mid_tree, level)
-#     postorder = []
-#     post_order(MIN, MAX, 0, postorder, post_tree, level)
+    # 각 순회의 인자는 특정 노드가 가질 수 있는 x 값의 최소, 최대, 특정 노드의 depth, 결과를 담을 리스트, 각 순회용 트리, level
+    preorder = []
+    pre_order(MIN, MAX, 0, preorder, pre_tree, level)
+    midorder = []
+    mid_order(MIN, MAX, 0, midorder, mid_tree, level)
+    postorder = []
+    post_order(MIN, MAX, 0, postorder, post_tree, level)
 
-#     return [preorder, postorder]
+    return [preorder, postorder]
 
 
-# def pre_order(left, right, depth, result, tree, level):
-#     '''
-#     전위 순회
-#     Root -> L -> R
-#     '''
-#     if depth == TREE_DEPTH:
-#         return
-#     if len(tree[level[depth]]) <= 0:
-#         return
-#     if not (left < tree[level[depth]][-1][0] < right):
-#         return
+def pre_order(left, right, depth, result, tree, level):
+    '''
+    전위 순회
+    Root -> L -> R
+    '''
+    if depth == TREE_DEPTH:
+        return
+    if len(tree[level[depth]]) <= 0:
+        return
+    if not (left < tree[level[depth]][-1][0] < right):
+        return
     
-#     x, index = tree[level[depth]].pop()
-#     result.append(index)
-#     pre_order(left, x, depth+1, result, tree, level)
-#     pre_order(x, right, depth+1, result, tree, level)
+    x, index = tree[level[depth]].pop()
+    result.append(index)
+    pre_order(left, x, depth+1, result, tree, level)
+    pre_order(x, right, depth+1, result, tree, level)
 
-# def mid_order(left, right, depth, result, tree, level):
-#     '''
-#     중위 순회
-#     L -> Root -> R
-#     '''
-#     if depth == TREE_DEPTH:
-#         return
-#     if len(tree[level[depth]]) <= 0:
-#         return
-#     if not (left < tree[level[depth]][-1][0] < right):
-#         return
+def mid_order(left, right, depth, result, tree, level):
+    '''
+    중위 순회
+    L -> Root -> R
+    '''
+    if depth == TREE_DEPTH:
+        return
+    if len(tree[level[depth]]) <= 0:
+        return
+    if not (left < tree[level[depth]][-1][0] < right):
+        return
     
-#     x, index = tree[level[depth]].pop()
-#     mid_order(left, x, depth+1, result, tree, level)
-#     result.append(index)
-#     mid_order(x, right, depth+1, result, tree, level)
+    x, index = tree[level[depth]].pop()
+    mid_order(left, x, depth+1, result, tree, level)
+    result.append(index)
+    mid_order(x, right, depth+1, result, tree, level)
 
-# def post_order(left, right, depth, result, tree, level):
-#     '''
-#     후위 순회
-#     L -> R -> Root
-#     '''
-#     if depth == TREE_DEPTH:
-#         return
-#     if len(tree[level[depth]]) <= 0:
-#         return
-#     if not (left < tree[level[depth]][-1][0] < right):
-#         return
+def post_order(left, right, depth, result, tree, level):
+    '''
+    후위 순회
+    L -> R -> Root
+    '''
+    if depth == TREE_DEPTH:
+        return
+    if len(tree[level[depth]]) <= 0:
+        return
+    if not (left < tree[level[depth]][-1][0] < right):
+        return
     
-#     x, index = tree[level[depth]].pop()
-#     post_order(left, x, depth+1, result, tree, level)
-#     post_order(x, right, depth+1, result, tree, level)
-#     result.append(index)
+    x, index = tree[level[depth]].pop()
+    post_order(left, x, depth+1, result, tree, level)
+    post_order(x, right, depth+1, result, tree, level)
+    result.append(index)
 
 ## 2
 
