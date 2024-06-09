@@ -35,6 +35,7 @@ def solution(n, wires):
             union(parent, a, b)
         
         # 부모 테이블 자체에는 부모 노드만 설정되어 있기 때문에 루트 노드로 갱신이 필요하다.
+        # 즉 각 노드가 속한 집합의 루트 노드로 최신화하는 것이다.
         for idx in range(1, n+1):
             find(parent, idx)
         
