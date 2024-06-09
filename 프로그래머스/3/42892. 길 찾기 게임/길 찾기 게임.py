@@ -35,7 +35,7 @@ def solution(nodeinfo):
     level = sorted(list(level), reverse=True)
     TREE_DEPTH = len(level)
     
-    # 각 순회의 인자는 특정 노드가 가질 수 있는 x 값의 최소, 최대, 특정 노드의 depth, 결과를 담을 리스트, 각 순회용 트리, level
+    # 각 순회의 인자는 특정 순회 시 가능한 x 값의 최소, 최대, depth, 결과를 담을 리스트, 각 순회용 트리, level
     preorder = []
     pre_order(MIN, MAX, 0, preorder, pre_tree, level)
     midorder = []
