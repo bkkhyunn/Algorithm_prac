@@ -31,7 +31,6 @@ def solution(k, dungeons):
             answer = cnt
 
         for idx in range(len(dungeons)):
-            
             if k >= dungeons[idx][0] and not visited[idx]:
                 visited[idx] = True
                 dfs(k - dungeons[idx][1], cnt+1, dungeons)
