@@ -113,25 +113,25 @@ def solution(nodeinfo):
         if nodeinfo:
             # 루트 노드 정보 찾기 (3분할 과정. 각 순회에서 루트, 좌측 서브트리, 우측 서브트리 탐색)
             # x 좌표 기준으로 정렬된 nodeinfo 에서 index, y, 노드번호
-            highest = (0,-1,0)
+            root = (0,-1,0)
             for idx, (x,y,n) in enumerate(nodeinfo):
                 # 특정 순회에서 y 값이 가장 큰 루트 노드 찾기
-                if y > highest[1]:
-                    highest = (idx, y, n)
+                if y > root[1]:
+                    root = (idx, y, n)
 
             # 좌측 서브트리, 우측 서브트리
-            left_sub, right_sub = nodeinfo[:highest[0]], nodeinfo[highest[0]+1:]
+            left_sub, right_sub = nodeinfo[:root[0]], nodeinfo[root[0]+1:]
             
             # 좌, 우 서브트리 탐색 전 루트노드 출력 -> 전위 순회
-            result[0].append(highest[-1])
+            result[0].append(root[-1])
             # 좌측 서브트리 탐색
             make_order(left_sub)
             # 좌측 서브트리 탐색 후 루트노드 출력, 우측 서브트리 탐색 -> 중위 순회
-            #result[2].append(highest[-1])
+            #result[2].append(root[-1])
             # 우측 서브트리 탐색
             make_order(right_sub)
             # 좌, 우 서브트리 탐색 후 루트노드 출력 -> 후위 순회
-            result[1].append(highest[-1])
+            result[1].append(root[-1])
     
     make_order(nodeinfo)
     return result
