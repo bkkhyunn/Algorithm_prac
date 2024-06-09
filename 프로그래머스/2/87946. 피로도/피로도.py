@@ -31,9 +31,11 @@ def solution(k, dungeons):
             answer = cnt
 
         for idx in range(len(dungeons)):
-            if k >= dungeons[idx][0] and not visited[idx]:
+            required, consumption = dungeons[idx]
+            
+            if k >= required and not visited[idx]:
                 visited[idx] = True
-                dfs(k - dungeons[idx][1], cnt+1, dungeons)
+                dfs(k - consumption, cnt+1, dungeons)
                 # 백트래킹
                 visited[idx] = False
                 
