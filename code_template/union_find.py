@@ -38,6 +38,7 @@ for i in range(e):
     union_parent(parent, a, b)
     
 # 각 원소가 속한 집합 출력 -> 그 집합의 루트 노드를 출력한다. 루트가 같으면 같은 집합이다.
+# 부모 테이블의 내용을 출력했을 때 자신의 루트가 나오지 않고 바로 위 부모가 나올 수 있는데, find_parent 를 한 번 더 거쳐주어 갱신할 수 있다.
 for i in range(1, v+1):
     print(find_parent(parent, i), end=' ')
 
