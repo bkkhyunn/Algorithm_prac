@@ -25,8 +25,10 @@ def solution(name):
             # save + reverse : 정방향으로 가다가 거꾸로 진행했을 때 현재 위치까지 이동횟수
             # length - i + reverse : 거꾸로 가다가 정방향으로 진행했을 때 현재 위치까지 이동횟수
             move = min(move, min(save + reverse, length - i + reverse))
-            print(i, save, reverse, move)
+            #print(i, save, reverse, move)
+            # save : 정방향으로 갔을 때의 이동횟수(다음 반복문에서 전 저장위치가 된다.)
             save = i
     
+    # 정방향으로 그냥 갔을 때와 정방향 + 역방향 조합 비교
     move = min(save, move)
     return answer + move
