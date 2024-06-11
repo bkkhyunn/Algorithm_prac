@@ -1,4 +1,53 @@
-# 최소 신장 트리 - 크루스칼 알고리즘
+# 우선순위 큐 다익스트라 -> 다익스트라는 매 순간 최소 비용만을 고려하지만 총 비용을 고려하지는 않는다.
+# 따라서 이 문제에서는 최소 신장 트리(크루스칼 혹은 프림) 알고리즘이 적절하다.
+import heapq
+
+def solution(n, costs):
+    answer = 1e10
+    
+    graph = [[] for _ in range(n)]
+    
+    for start, end, cost in costs:
+        graph[start].append((end, cost))
+        graph[end].append((start, cost))
+        
+    def dijkstra(start):
+        nonlocal distance, min_cost
+        queue = []
+        
+        heapq.heappush(queue, (0, start))
+        distance[start] = 0
+        min_cost[start] = 0
+        
+        while queue:
+            
+            dist, now = heapq.heappop(queue)
+            
+            if distance[now] < dist:
+                continue
+                
+            for node, node_cost in graph[now]:
+                cost = dist + node_cost
+                
+                if cost <= distance[node]:
+                    distance[node] = cost
+                    min_cost[node] = node_cost
+                    
+                    heapq.heappush(queue, (cost, node))
+    
+    for i in range(n):
+        distance = [float('inf')] * n
+        min_cost = [float('inf')] * n
+        dijkstra(i)
+        
+        #print(distance)
+        #print(min_cost)
+    
+        answer = min(answer, sum(min_cost))
+
+    return answer
+
+# 최소 신장 트리 - 크루스칼 알고리즘 (그리디의 일종)
 
 def solution(n, costs):
     
