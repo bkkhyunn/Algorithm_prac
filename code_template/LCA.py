@@ -49,8 +49,8 @@ for i in range(m):
     print(lca(a, b))
     
     
-# DP 를 이용하여 개선된 LCA
-    
+# DP 를 이용한 개선된 LCA
+
 import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(int(1e5))
@@ -86,6 +86,11 @@ def set_parent():
     dfs(1, 0) # 루트 노드는 1번 노드
     for i in range(1, LOG):
         for j in range(1, n+1):
+            # j = 3, i = 3 일 때,
+            # 3번째 노드의 2^3 위의 부모를 가리킨다.
+            # 우항에 parent[parent[3][2]][2] 가 오게 되는데 이는
+            # 3번째 노드의 2^2 위의 부모의 2^2 위 부모를 가리키기 때문에
+            # 결국 2^3 위 부모를 가리키는 것이다.
             parent[j][i] = parent[parent[j][i-1]][i-1]
         
 # A 와 B 의 최소 공통 조상을 찾는 함수
@@ -97,6 +102,8 @@ def lca(a, b):
 
     # 먼저 깊이가 동일하도록 한다.
     for i in range(LOG-1, -1, -1):
+        # << 는 비트단위 시프트 연산자로서, 왼쪽으로 1칸 움직인다는 것이다.
+        # 아래 식에서는 i >> 1 이기 때문에 오른쪽으로 1비트 움직이기 때문에 반으로 나눈 값이 된다.
         if d[b] - d[a] >= (1 << i):
             b = parent[b][i]
     
