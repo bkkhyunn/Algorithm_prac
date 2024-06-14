@@ -1,14 +1,3 @@
-# ~ 연산 : 파이썬에서는 무한 비트이므로 그냥 비트 반전을 이용하면 모든 비트를 반전시켜 2의 보수 표현이 사용된다.
-def invert_bits(n, bit_length):
-    mask = (1 << bit_length) - 1  # 예를 들어 4비트면 0b1111
-    return ~n & mask
-
-# 4비트로 반전
-n = 0b1010
-bit_length = 4
-inverted = invert_bits(n, bit_length)
-print(bin(inverted))  # 0b0101
-
 ## 비트마스킹 집합의 연산
 S = 0b000000000000
 n = 3
@@ -37,6 +26,17 @@ A | B # 합집합
 A & B # 교집합
 A & ~B # 차집합
 A ^ B # A 와 B 중 하나에만 포함된 원소들의 집합
+
+# ~ 연산 : 파이썬에서는 무한 비트이므로 그냥 비트 반전을 이용하면 모든 비트를 반전시켜 2의 보수 표현이 사용된다.
+def invert_bits(n, bit_length):
+    mask = (1 << bit_length) - 1  # 예를 들어 4비트면 0b1111
+    return ~n & mask
+
+# 4비트로 반전
+n = 0b1010
+bit_length = 4
+inverted = invert_bits(n, bit_length)
+print(bin(inverted))  # 0b0101
 
 # 집합의 크기
 # x % 2 는 비트의 맨 마지막 원소, x // 2 는 비트의 맨 마지막 원소 삭제
