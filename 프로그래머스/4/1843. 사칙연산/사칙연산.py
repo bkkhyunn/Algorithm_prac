@@ -17,15 +17,18 @@ def solution(arr):
         for i in range(n-step):
             j = i + step
             
+            # 원래 배열에서 숫자는 짝수 인덱스, 연산자는 홀수 인덱스에 위치
             if step == 0:
                 max_dp[i][i] = int(arr[i*2])
                 min_dp[i][i] = int(arr[i*2])
                 
             else:
                 for k in range(i, j):
+                    # 더하기 연산
                     if arr[k*2+1] == '+':
                         max_dp[i][j] = max(max_dp[i][j], max_dp[i][k] + max_dp[k+1][j])
                         min_dp[i][j] = min(min_dp[i][j], min_dp[i][k] + min_dp[k+1][j])
+                    # 빼기 연산
                     else:
                         max_dp[i][j] = max(max_dp[i][j], max_dp[i][k] - min_dp[k+1][j])
                         min_dp[i][j] = min(min_dp[i][j], min_dp[i][k] - max_dp[k+1][j])
