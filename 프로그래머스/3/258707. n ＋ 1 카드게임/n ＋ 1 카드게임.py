@@ -6,6 +6,7 @@ def solution(coin, cards):
     n = len(cards)
     init_cards_set = set(cards[:n//3])
     left_cards = deque(cards[n//3:])
+    # 뽑은 카드는 나중에 써도 최대 라운드 결과는 달라지지 않는다. 숫자들 간의 중복이 없기 때문이다.
     picked_cards_set = set()
 
     while True:
