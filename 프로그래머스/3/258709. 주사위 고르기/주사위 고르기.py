@@ -8,9 +8,9 @@ def solution(dice):
     n = len(dice)
     a_dice = list(combinations(range(n), n // 2))
     b_dice = list(combinations(range(n), n // 2))[::-1]
-    print(a_dice)
     
     # 승 수 구하기. bisect 를 통해 시간 감소시키기
+    # bisect_left 를 하면 비긴 것 제외하고 이긴 것만 셀 수 있다.
     max_win, a_win = 0, 0
     for a, b in zip(a_dice, b_dice):
         a_dices = list(map(lambda x: dice[x], a))
@@ -33,7 +33,6 @@ def solution(dice):
         if max_win < a_win:
             max_win = a_win
             answer = sorted(map(lambda x: x+1, [*a]))
-            a_win = 0
             
         a_win = 0
         
