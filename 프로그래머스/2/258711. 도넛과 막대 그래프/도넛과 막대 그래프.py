@@ -26,6 +26,7 @@ def solution(edges):
             eight += 1
     
     # donut
+    # 새로 추가한 노드는 그래프 개수만큼 나가는 간선을 가진다.
     donut = graph[new][0] - (stick + eight)
         
     return [new, donut, stick, eight]
