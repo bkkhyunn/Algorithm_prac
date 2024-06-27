@@ -30,7 +30,7 @@ def solution(n, wires):
         for j in range(1, n+1):
             parent[j] = j
         
-        # 간선 정보를 가지고 Union 수행
+        # 간선 정보를 가지고 Union 수행 -> 루트 노드를 보장하지는 않는다.
         for a, b in n_wires:
             union(parent, a, b)
         
