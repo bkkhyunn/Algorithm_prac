@@ -6,6 +6,7 @@ def solution(fees, records):
     
     # 차량 번호 별 IN, OUT 시간 담기
     cars = set([record.split()[1] for record in records])
+    # 차량번호 : [[들어온 시간], [나간 시간]]
     park_dict = {car:[[],[]] for car in cars}
     
     for record in records:
