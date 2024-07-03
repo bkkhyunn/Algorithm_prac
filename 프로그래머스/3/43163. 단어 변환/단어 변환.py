@@ -55,7 +55,7 @@ def solution(begin, target, words):
     def dfs(v, graph, visited, change):
         nonlocal answer, min_change
         
-        visited[v] = True
+        #visited[v] = True
         # target 에 도착하는 여러 갈래를 모두 비교하기 위해서 target 노드는 방문 미처리
         if v == target:
             visited[target] = False
@@ -65,6 +65,7 @@ def solution(begin, target, words):
         
         for w in graph[v]:
             if not visited[w]:
+                visited[w] = True
                 dfs(w, graph, visited, change+1)
         
     dfs(begin, graph, visited, 0)
