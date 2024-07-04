@@ -16,10 +16,14 @@ class Solution:
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         ''' two pointer '''
-        j = 2
-        for i in range(2, len(nums)):
-            if nums[i] != nums[j-2]:
-                nums[j] = nums[i]
-                j += 1
         
-        return j
+        # 0, 1 idx 는 최대 중복 허용이 2회기 때문에 확인하지 않아도 된다.
+        # point 는 중복이 제거된 배열의 인덱스를 뜻한다.
+        point = 2
+        
+        for i in range(2, len(nums)):
+            if nums[i] != nums[point-2]:
+                nums[point] = nums[i]
+                point += 1
+                
+        return point
