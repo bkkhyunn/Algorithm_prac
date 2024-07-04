@@ -21,6 +21,7 @@ class Solution:
         # point 는 중복이 제거된 배열의 인덱스를 뜻한다.
         point = 2
         
+        # nums 를 앞에서부터 중복을 제거한 배열로 탈바꿈 시킨다.
         for i in range(2, len(nums)):
             if nums[i] != nums[point-2]:
                 nums[point] = nums[i]
