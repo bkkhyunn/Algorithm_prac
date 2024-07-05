@@ -42,3 +42,27 @@ class Solution:
             
         return True
     
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        '''
+        greedy & dynamic programming
+        1. dp table 은 각 인덱스에서 도달할 수 있는 최대 위치를 저장
+        2. dp[0]을 nums[0]으로 초기화
+        3. 배열의 각 인덱스를 순회하면서, 이전 인덱스에서 현재 인덱스까지 도달할 수 있는지를 확인
+        4. 만약 도달할 수 없다면 False를 반환
+        5. 도달할 수 있다면 각 인덱스에서 도달할 수 있는 최대 위치를 업데이트
+        6. 마지막 인덱스에 도달할 수 있는지 확인
+        '''
+        n = len(nums)
+        if n == 1:
+            return True
+
+        dp = [0] * n
+        dp[0] = nums[0]
+
+        for i in range(1, n):
+            if dp[i-1] < i:
+                return False
+            dp[i] = max(dp[i-1], i + nums[i])
+
+        return dp[n-1] >= n - 1
