@@ -2,6 +2,7 @@
 
 def solution(commands):
     answer = []
+    # 각 셀은 r * 50 + c 의 위치를 가진다.
     table = [i for i in range(51 * 51)]
     values = ["" for _ in range(51 * 51)]
     
@@ -20,7 +21,7 @@ def solution(commands):
 
         # (r1, c1) 셀에 값이 없고 (r2, c2)에만 있는 경우
         if not values[root1] and values[root2]:
-            table[root1] = root2
+            table[root2] = root1
             values[root1] = values[root2]
         else:
             table[root2] = root1
@@ -36,6 +37,7 @@ def solution(commands):
                 r, c, value = command[1:]
                 r, c = int(r), int(c)
                 # (r, c)의 루트 셀의 value 만 바꾼다.
+                # 어차피 병합되어 있어도, print 시에 루트를 찾아서 print 할 것이기 때문.
                 x = r * 50 + c
                 root = find(x)
                 values[root] = value
@@ -54,6 +56,7 @@ def solution(commands):
             x2 = r2 * 50 + c2
             
             # 루트 셀이 다르면 병합한다.
+            # 이 때 항상 x1(r1, c1)을 루트로 병합한다.
             if table[x1] != table[x2]:
                 union(x1, x2)
 
@@ -65,6 +68,7 @@ def solution(commands):
 
             cells = []
             for cell in range(51 * 51):
+                # 같은 루트에 속한 병합된 셀 찾기
                 if find(cell) == root:
                     cells.append(cell)
 
