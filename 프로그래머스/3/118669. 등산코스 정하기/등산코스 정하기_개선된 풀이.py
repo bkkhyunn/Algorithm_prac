@@ -1,3 +1,9 @@
+# 출입구 하나, 산봉우리 하나
+# 출입구 - 산봉우리, 산봉우리 - 출입구 두 방향에서 최소 비용은 같다. 따라서 출입구 - 산봉우리 한 번만 구한다.
+# 이 때 우선순위 큐 & bfs를 활용한다.
+# 최소 비용으로 이동하면서 목적지에 도달했을 때, 그 중 최대값이 intensity 가 된다.
+# 출입구와 산봉우리 조합이 25억개가 될 수 있으므로 DP 를 이용하여 매 지점 최대강도를 기록한다.
+
 from collections import defaultdict
 from heapq import heappush, heappop
 
