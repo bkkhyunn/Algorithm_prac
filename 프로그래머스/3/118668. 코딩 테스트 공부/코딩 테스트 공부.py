@@ -28,6 +28,7 @@ def solution(alp, cop, problems):
             # 풀 수 있는 문제인 경우
             if now_alp >= alp_req and now_cop >= cop_req:
                 
+                # dp 테이블의 범주를 넘는 경우. 그 경우에는 최대범위를 갱신해주면 된다.
                 new_alp = min(now_alp + alp_rwd, 150)
                 new_cop = min(now_cop + cop_rwd, 150)
                 
