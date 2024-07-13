@@ -36,12 +36,13 @@ from collections import deque
     
 #     return answer
 
-# dfs
+## dfs
 def solution(info, edges):
     visited = [0] * len(info)
     answer = []
     
     def dfs(sheep, wolf):
+        #print(visited)
         if sheep > wolf:
             answer.append(sheep)
         else:
