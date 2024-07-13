@@ -3,7 +3,7 @@ class Solution:
         '''
         정렬 후 선형 탐색
         '''
-        citations.sort(reverse=True)
+        citations.sort(reverse=True) # 6, 5, 3, 1, 0
         n = len(citations) # h 의 최대값
         i, answer = 0, 0
         
@@ -25,7 +25,7 @@ class Solution:
         left, right = 0, n - 1
         
         while left <= right:
-            mid = left + (right - left) // 2
+            mid = (right + left) // 2
             if citations[mid] == mid:
                 return mid
             elif citations[mid] > mid:
@@ -34,23 +34,3 @@ class Solution:
                 right = mid - 1
         
         return left
-    
-class Solution:
-    def hIndex(self, citations: List[int]) -> int:
-        '''
-        Counting Sort
-        '''
-        n = len(citations)
-        count = [0]*(n+1)
-
-        for citation in citations:
-            if citation>=n:
-                count[n]+=1
-            else:
-                count[citation]+=1
-        
-        total  = 0
-        for i in range(n, -1, -1):
-            total += count[i]
-            if total >= i:
-                return i
