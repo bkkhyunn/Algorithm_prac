@@ -34,3 +34,23 @@ class Solution:
                 right = mid - 1
         
         return left
+    
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        '''
+        Counting Sort
+        '''
+        n = len(citations)
+        count = [0] * (n+1)
+
+        for citation in citations:
+            if citation >= n:
+                count[n] += 1
+            else:
+                count[citation] += 1
+        
+        total  = 0
+        for i in range(n, -1, -1):
+            total += count[i]
+            if total >= i:
+                return i
