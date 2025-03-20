@@ -1,11 +1,11 @@
 from collections import Counter
+import math
 
 def solution(clothes):
-    answer = 1
     
-    counter = Counter([cloth_type for _, cloth_type in clothes])
+    temp = [cloth_type for cloth, cloth_type in clothes]
+    counter_dict = Counter(temp)
     
-    for val in counter.values():
-        answer *= (val+1)
-        
-    return answer - 1
+    answer = math.prod([value + 1 for value in counter_dict.values()]) - 1
+    
+    return answer
