@@ -1,42 +1,56 @@
-import heapq
+import heapq, math
+from collections import deque
 
 def solution(jobs):
-    answer = 0
-    n = len(jobs)
+    answer = []
     
-    # jobs 를 요청시점이 빠른 순대로 정렬하고 가장 빨리 요청된 작업을 wait_list 에 넣어준다.
-    jobs.sort()
-    s_req, s_duration = heapq.heappop(jobs)
+    queue, working = [], deque([])
+    jobs = [(duration, request, i) for i, (request, duration) in enumerate(jobs)]
+    jobs = deque(sorted(jobs, key=lambda x: x[1]))
     
-    # wait_list 는 대기열로, 진행 중인 작업이 끝나는 시점보다 빨리 요청된 작업들이 들어간다.
-    # 이 때, 소요시간이 빠른 순대로 삽입한다. 소요시간이 빠른 작업부터 진행해야 총 평균 시간이 작아지기 때문이다.
-    wait_list = [[s_duration, s_req]]
-    now_time, wait_time = 0, 0
+    time = 0
+    while True:
+        
+        # 종료 조건
+        if (len(jobs) == 0) and (len(queue) == 0) and (len(working) == 0):
+            break
+        
+        # jobs 내 요청시간이 됐으면 대기 큐에 적재
+        while jobs and (jobs[0][1] <= time):
+            job = jobs.popleft()
+            heapq.heappush(queue, job)
+        
+        # 대기 중인 작업이 있을 때
+        if queue:
+            # 디스크가 작업 중
+            if working:
+                # 작업이 끝날 시점이면 꺼내서 정답에 적재. 이후 대기큐에서 꺼내서 작업 재개
+                if time == working[0][0] + working[0][-1]:
+                    complete_job = working.popleft()
+                    answer.append(time - complete_job[1])
+                    job = heapq.heappop(queue)
+                    working.append((time, job[1], job[0]))
+                # 작업이 끝날 시점이 아니면 작업이 끝날 시점으로 이동(시간 아끼기)
+                else:
+                    time = working[0][0] + working[0][-1]
 
-    while wait_list:
-        #print(wait_list)
-        duration, req = heapq.heappop(wait_list)
-        
-        # 요청시점이 현재 시간보다 크면, 대기하지 않는다.
-        if req > now_time:
-            wait_time = 0
-            now_time += (req - now_time + duration)
-        # 반대의 경우 대기 시간이 생긴다.
-        else:
-            wait_time = (now_time - req)
-            now_time += duration
-        #print(now_time, wait_time)
-        answer += (wait_time + duration)
-        #print(answer)
-        
-        # 현재 시간(진행 중인 작업이 끝나는 시간) 보다 더 빨리 요청된 작업들을 wait_list 에 min heap 형태로 삽입한다.
-        while jobs and (jobs[0][0] < now_time):
-            n_req, n_duration = heapq.heappop(jobs)
-            heapq.heappush(wait_list, [n_duration, n_req])
-            
-        # 하드디스크가 작업을 안하는 시점이 생길 수 있는데, 이를 위해 wait_list 가 비었고 남은 작업이 있을 때 요청시점이 제일 빠른 작업을 넣는다.
-        if jobs and (not wait_list):
-            n_req, n_duration = heapq.heappop(jobs)
-            wait_list += [[n_duration, n_req]]
-    
-    return int(answer / n)
+            # 디스크가 작업 중이 아니면
+            else:
+                job = heapq.heappop(queue)
+                # 작업 시작 시간, 작업 요청 시간, 작업 소요 시간
+                working.append((time, job[1], job[0]))
+                time = working[0][0] + working[0][-1]
+                
+        else: # 대기 중인 작업이 없고
+            # 작업 중이면
+            if working:
+                if time == working[0][0] + working[0][-1]:
+                    complete_job = working.popleft()
+                    answer.append(time - complete_job[1])
+                else:
+                    time = working[0][0] + working[0][-1]
+
+            else:
+                time = jobs[0][1]
+                
+    return math.floor(sum(answer)/len(answer))
